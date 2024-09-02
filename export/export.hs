@@ -16,7 +16,7 @@ import System.Directory as D
 -- 3. Name of the hledger binary
 -- 4. Which accounts to include into opening/closing balances
 --
-defaultFirstYear     = 2017 :: Int
+defaultFirstYear     = 2014 :: Int
 defaultCurrentYear   = 2017
 defaultBaseDir       = ".."
 defaultHledgerBinary = "hledger"
@@ -35,6 +35,8 @@ transactions      y = y++"-all.journal"
 income_expenses   y = y++"-income-expenses.txt"
 balance_sheet     y = y++"-balance-sheet.txt"
 cash_flow         y = y++"-cash-flow.txt"
+accounts          y = y++"-accounts.txt"
+unknown           y = y++"-unknown.journal"
 closing_balances  y = y++"-closing.journal"
 opening_balances  y = y++"-opening.journal"
 
@@ -43,9 +45,11 @@ opening_balances  y = y++"-opening.journal"
 --
 reports first current =
   concat [ [ transactions         (show y) | y <- all_years ]
+         , [ accounts             (show y) | y <- all_years ]
          , [ income_expenses      (show y) | y <- all_years ]
          , [ balance_sheet        (show y) | y <- all_years ]
          , [ cash_flow            (show y) | y <- all_years ]
+         , [ unknown              (show y) | y <- all_years ]
          , [ opening_balances     (show y) | y <- all_years, y/=first ]
          , [ closing_balances     (show y) | y <- all_years, y/=current ]
          ]
@@ -107,11 +111,15 @@ export_all flags targets = return $ Just $ do
 
   (transactions "//*") %> hledger_process_year flags year_inputs ["print"]
 
+  (accounts "//*") %> hledger_process_year flags year_inputs ["accounts"]
+
   (income_expenses "//*") %> hledger_process_year flags year_inputs ["is","--flat","--no-elide"]
 
   (balance_sheet "//*") %> hledger_process_year flags year_inputs ["balancesheet","--no-elide"]
 
   (cash_flow "//*") %> hledger_process_year flags year_inputs ["cashflow","not:desc:(opening balances)","--no-elide"]
+
+  (unknown "//*") %> hledger_process_year flags year_inputs ["print", "unknown"]
 
   (closing_balances "//*") %> generate_closing_balances flags year_inputs
 

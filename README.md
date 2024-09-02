@@ -3,6 +3,10 @@
 Before continuing read about [full-fledged-ledger](https://github.com/adept/full-fledged-hledger/wiki/Key-principles-and-practices).
 This Buchhaltung is structured after that.
 
+## Conventions
+
+- Journals are split by year. To allow for both `all.journal` and `<year>.journal`s we need to include opening journals and closing journals. For more info check the [guide](https://github.com/adept/full-fledged-hledger/wiki/Getting-full-history-of-the-account#on-the-opening-balances).
+
 ## Setup
 
 1. Install the necessary CLI tools via `brew`.

@@ -1,0 +1,9 @@
+assets:Lloyds:current
+assets:Lloyds:savings
+assets:Lloyds:transfers
+assets:cash
+assets:pension:aviva
+equity:opening/closing balances
+expenses:coffee
+expenses:unknown
+income:employer
