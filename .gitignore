@@ -1,0 +1,6 @@
+puffin
+**/tmp
+**/.venv
+**/.DS_Store
+**/dist-newstyle
+**/.shake

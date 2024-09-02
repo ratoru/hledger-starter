@@ -1,0 +1,5 @@
+# Hledger
+brew hledger
+# Command Runner
+brew just
+# Ghcup is installed directly from the website!
