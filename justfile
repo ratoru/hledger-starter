@@ -26,3 +26,7 @@ alias v := view
 # Explore the journal.
 view:
     LEDGER_FILE={{justfile_directory()}}/all.journal ./puffin -cfg puffin-config.json
+
+# Generate ROI report. Use -Y for yearly breakdown.
+roi asset *FLAGS:
+    hledger roi -f all.journal --investment 'acct:assets:{{asset}} not:acct:equity' --pnl 'acct:virtual:unrealized not:acct:equity' {{FLAGS}}

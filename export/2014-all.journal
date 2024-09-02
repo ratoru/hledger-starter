@@ -19,3 +19,7 @@
     assets:Lloyds:current           £-100 = £600.00
     assets:pension:aviva
 
+2014-12-31 pension valuation
+    assets:pension:aviva                   = £102.34
+    virtual:unrealized pnl
+

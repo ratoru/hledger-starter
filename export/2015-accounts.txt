@@ -7,3 +7,4 @@ equity:opening/closing balances
 expenses:coffee
 expenses:unknown
 income:employer
+virtual:unrealized pnl

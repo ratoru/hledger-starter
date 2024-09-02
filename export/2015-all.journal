@@ -1,7 +1,7 @@
 2015-01-01 opening balances  ; start:2015.journal
     assets:Lloyds:current                   £600.00 = £600.00
     assets:cash                             £150.00 = £150.00
-    assets:pension:aviva                       £100 = £100
+    assets:pension:aviva                    £102.34 = £102.34
     equity:opening/closing balances
 
 2015-03-30 (BGC) EMPLOYER INC
@@ -27,4 +27,8 @@
 2015-05-01 (BP) AVIVA
     assets:Lloyds:current           £-100 = £650.00
     assets:pension:aviva
+
+2015-12-31 pension valuation
+    assets:pension:aviva                   = £204.41
+    virtual:unrealized pnl
 

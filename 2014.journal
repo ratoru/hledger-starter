@@ -5,4 +5,8 @@
   assets:cash              = £150.00
   equity:opening balances
 
+2014/12/31 pension valuation
+  assets:pension:aviva     = £102.34
+  virtual:unrealized pnl
+
 include ./import/lloyds/journal/99966633_20171224_2041.journal

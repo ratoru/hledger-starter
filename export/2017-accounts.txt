@@ -8,3 +8,4 @@ expenses:groceries
 expenses:unknown
 income:employer
 income:interest
+virtual:unrealized pnl
