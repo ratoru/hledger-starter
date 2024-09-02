@@ -1,11 +1,19 @@
-# Plaintext Accounting using Hledger
+# Plain Text Accounting using Hledger
 
-Before continuing read about [full-fledged-ledger](https://github.com/adept/full-fledged-hledger/wiki/Key-principles-and-practices).
-This Buchhaltung is structured after that.
+This is my starter template for tracking my finances. It is based on plain text accounting, which has the following advantages and disadvantages.
 
-## Conventions
+- Pros
+    - Customization. You can build whatever you want the way you want it.
+    - Manual labor gives intimate knowledge of your finances. Although, we try to automate all repetitive tasks away!
+    - Privacy.
+    - Open Source. Be inspired by other people.
+- Cons
+    - You need programming experience.
+    - Needs a lot of time to set up.
+    - If your financial life is very complicated, it might reach its limits.
+    - Less fancy pre-built web UIs. `fava` is probably the best one available.
 
-- Journals are split by year. To allow for both `all.journal` and `<year>.journal`s we need to include opening journals and closing journals. For more info check the [guide](https://github.com/adept/full-fledged-hledger/wiki/Getting-full-history-of-the-account#on-the-opening-balances).
+Before continuing read about [full-fledged-ledger](https://github.com/adept/full-fledged-hledger/wiki/Key-principles-and-practices), which this repo is based on. It will do a good job of motivating you to get started!
 
 ## Setup
 
@@ -15,9 +23,21 @@ This Buchhaltung is structured after that.
 brew bundle
 ```
 
-2. To work with the Haskell scripts, install [GHCup](https://www.haskell.org/ghcup/). I use `cabal` to build executables.
+2. Install Haskell tooling [GHCup](https://www.haskell.org/ghcup/). I use `cabal` to build executables.
 
 3. Download the latest version from [puffin](https://github.com/siddhantac/puffin?tab=readme-ov-file) if you want a nice TUI.
+
+## Usage & Conventions
+
+The most important commands are saved in the `justfile`. View them using `just -l`.
+
+- Create accounts by running `just add <institution name>`. 
+    - Downloaded CSV files will be put into `./import/<institution>/in`.
+    - You will have to write conversion scripts (`in2csv` and `csv2journal`) and rule files.
+- Generate all reports by running `just generate`.
+- Launch the TUI (puffin) by running `just view`.
+- Generate a ROI report for a given asset by running `just roi <asset-name> -Y`.
+- Journals are split by year. To allow for both `all.journal` and `<year>.journal`s we need to include opening journals and closing journals. For more info check the [guide](https://github.com/adept/full-fledged-hledger/wiki/Getting-full-history-of-the-account#on-the-opening-balances).
 
 ## Editor Config
 
@@ -28,11 +48,10 @@ brew bundle
 
 ## Useful Guides
 
-- [setup guide](https://github.com/adept/full-fledged-hledger/tree/master)
-- [long use case](https://memo.barrucadu.co.uk/personal-finance.html)
+- [full-fledged-ledger](https://github.com/adept/full-fledged-hledger/tree/master)
+- [Personal Dashboard](https://memo.barrucadu.co.uk/personal-finance.html)
 
 ## Future changes
 
-- For now I am sticking with Haskell as the scripting language.
 - Use `Grafana` and `Prometheus` for a dashboard?
 
