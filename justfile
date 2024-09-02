@@ -25,4 +25,4 @@ build:
 alias v := view
 # Explore the journal.
 view:
-    ./puffin --file all.journal
+    LEDGER_FILE={{justfile_directory()}}/all.journal ./puffin -cfg puffin-config.json
