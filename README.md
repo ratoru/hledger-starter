@@ -11,9 +11,9 @@ This is my starter template for tracking my finances. It is based on plain text 
     - You need programming experience.
     - Needs a lot of time to set up.
     - If your financial life is very complicated, it might reach its limits.
-    - Less fancy pre-built web UIs. `fava` is probably the best one available.
+    - Less fancy pre-built web UIs. `paisa` or `fava` are probably the best ones available.
 
-Before continuing read about [full-fledged-ledger](https://github.com/adept/full-fledged-hledger/wiki/Key-principles-and-practices), which this repo is based on. It will do a good job of motivating you to get started!
+Before continuing read about [full-fledged-ledger](https://github.com/adept/full-fledged-hledger/wiki/Key-principles-and-practices), which this repo is based on. It will do a good job of motivating you to get started! In case you would like to learn more about plain text accounting or doubly entry accounting, read [Command-line Accounting in Context](https://beancount.github.io/docs/command_line_accounting_in_context.html). Even though the document covers beancount, I really enjoyed reading it.
 
 ## Setup
 
