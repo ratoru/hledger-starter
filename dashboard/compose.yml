@@ -1,0 +1,44 @@
+name: hledger-dashboard
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Prometheus config file
+      - prometheus-data:/prometheus              # Persistent storage for Prometheus data
+    depends_on:
+      - pushgateway
+
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    volumes:
+      - grafana-data:/var/lib/grafana                    # Persistent storage for Grafana data
+      - ./provisioning:/etc/grafana/provisioning
+      - ./dashboard.json:/etc/grafana/dashboards/finance.json
+    ports:
+      - "3000:3000"
+    depends_on:
+      - prometheus
+    restart: unless-stopped
+
+  pushgateway:
+    image: prom/pushgateway:latest
+    container_name: pushgateway
+    ports:
+      - "9091:9091"
+    volumes:
+      - pushgateway-data:/data                          # Persistent storage for Pushgateway data
+    restart: unless-stopped
+
+volumes:
+  prometheus-data:
+  grafana-data:
+  pushgateway-data:
+
