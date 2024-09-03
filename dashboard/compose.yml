@@ -1,44 +1,34 @@
 name: hledger-dashboard
 
 services:
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
+  victoria-metrics:
+    image: victoriametrics/victoria-metrics:latest
+    container_name: victoria-metrics
     ports:
-      - "9090:9090"
-    restart: unless-stopped
+      - "8428:8428"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml  # Prometheus config file
-      - prometheus-data:/prometheus              # Persistent storage for Prometheus data
-    depends_on:
-      - pushgateway
+      - vmetrics-data:/victoria-metrics-data
+    command:
+      - '-retentionPeriod=100y'
+      - '-httpListenAddr=:8428'
+      - '-storageDataPath=/victoria-metrics-data'
+    restart: unless-stopped
 
   grafana:
     image: grafana/grafana-oss:latest
     container_name: grafana
     volumes:
-      - grafana-data:/var/lib/grafana                    # Persistent storage for Grafana data
-      - ./provisioning:/etc/grafana/provisioning
-      - ./dashboard.json:/etc/grafana/dashboards/finance.json
+      - grafana-data:/var/lib/grafana
+      - ./grafana-datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
+      - ./grafana-dashboard.yml:/etc/grafana/provisioning/dashboards/dashboards.yaml
+      - ./dashboards/:/etc/grafana/dashboards/
     ports:
       - "3000:3000"
+    restart: unless-stopped
     depends_on:
-      - prometheus
-    restart: unless-stopped
-
-  pushgateway:
-    image: prom/pushgateway:latest
-    container_name: pushgateway
-    ports:
-      - "9091:9091"
-    volumes:
-      - pushgateway-data:/data                          # Persistent storage for Pushgateway data
-    restart: unless-stopped
+      - victoria-metrics
 
 volumes:
-  prometheus-data:
+  vmetrics-data:
   grafana-data:
-  pushgateway-data:
 

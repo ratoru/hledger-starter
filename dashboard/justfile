@@ -1,0 +1,13 @@
+export VICTORIA_METRICS_URI := "http://localhost:8428"
+
+alias p := publish
+# Publish data to the dashboard
+publish: docker-up
+    # uv run exporters/hledger-fetch-fx-rates.py
+    uv run exporters/hledger-export-to-victoria.py --path ../all.journal
+
+test-export:
+    uv run exporters/hledger-export-to-victoria.py --dry-run --path ../all.journal
+
+docker-up:
+    docker compose up -d
