@@ -35,6 +35,7 @@ The most important commands are saved in the `justfile`. View them using `just -
   - Downloaded CSV files will be put into `./import/<institution>/in`.
   - You will have to write conversion scripts (`in2csv` and `csv2journal`) and rule files.
 - Generate all reports by running `just generate`.
+- Go through uncategorized transactions by running `just resolve`. This will require `fzf`, `ripgrep`, and `miller`.
 - Launch the TUI (puffin) by running `just view`.
 - Generate a ROI report for a given asset by running `just roi <asset-name> -Y`.
 - Journals are split by year. To allow for both `all.journal` and `<year>.journal`s we need to include opening journals and closing journals. For more info check the [guide](https://github.com/adept/full-fledged-hledger/wiki/Getting-full-history-of-the-account#on-the-opening-balances).
