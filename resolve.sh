@@ -43,9 +43,7 @@ while true; do
         ;;
     esac
 
-    tuning() {
-        local description="$1"
-        local dir="$2"
+    regexp=$(
         rules=$(paste -s -d ' ' $(ls ${dir}/*.rules))
         RELOAD="reload:rg --color=always --line-number --smart-case {q} ${rules} ${dir}/rules.psv ${dir}/csv || :"
         fzf --header="Searching in ${dir}/*.rules and ${dir}/csv" --disabled --ansi \
@@ -55,8 +53,7 @@ while true; do
             --bind 'ctrl-d:delete-char' \
             --query "${description}" |
             head -n1
-    }
-    regexp=$(tuning ${description} ${dir})
+    )
 
     # Now lets choose account
     target_account=$(
@@ -64,9 +61,13 @@ while true; do
             sort -u |
             fzf --header="Choose account money was sent to (prepend : to create new account)" --wrap \
                 --border --border-label "Choose Account" \
-                --bind "enter:accept-or-print-query" |
-            sed -e 's/^://'
+                --bind "enter:accept-or-print-query"
     )
+    if [[ $target_account == :* ]]; then
+        target_account=$(echo $target_account | sed -e 's/^://')
+        echo "Adding new account: ${target_account}"
+        echo "${target_account}" >>/tmp/accounts.txt
+    fi
 
     cat ${dir}/rules.psv | cut -d '|' -f3 | sort -u >/tmp/comments.txt
 
