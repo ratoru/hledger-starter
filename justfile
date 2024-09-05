@@ -1,16 +1,16 @@
 default: generate
 
 alias a := add
-# Creates the `import` directory structure for an account.
-add account:
-    mkdir -p import/{{ account }}/in
-    mkdir -p import/{{ account }}/csv
-    mkdir -p import/{{ account }}/journal
-    touch import/{{ account }}/in2csv
-    chmod +x import/{{ account }}/in2csv
-    touch import/{{ account }}/{{ account }}.rules
-    echo "#!/bin/bash\nhledger print --rules-file {{ account }}.rules -f \"\$1\"" > import/{{ account }}/csv2journal
-    chmod +x import/{{ account }}/csv2journal
+# Creates the `import` directory structure for an institution.
+add institution:
+    mkdir -p import/{{ institution }}/in
+    mkdir -p import/{{ institution }}/csv
+    mkdir -p import/{{ institution }}/journal
+    touch import/{{ institution }}/in2csv
+    chmod +x import/{{ institution }}/in2csv
+    touch import/{{ institution }}/{{ institution }}.rules
+    echo "#!/bin/bash\nhledger print --rules-file {{ institution }}.rules -f \"\$1\"" > import/{{ institution }}/csv2journal
+    chmod +x import/{{ institution }}/csv2journal
 
 alias g := generate
 # Generates all reports.
