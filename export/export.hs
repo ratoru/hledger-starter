@@ -60,7 +60,7 @@ reports first current =
 -- Extra dependencies of the import files
 -----------------------------------------
 extraDeps file
-  | "//lloyds//*.journal" ?== file   = ["lloyds.rules"]
+  | "//lloyds//*.journal" ?== file   = ["lloyds.rules", "rules.psv"]
   | otherwise = []
 
 -----------------------------------------------
