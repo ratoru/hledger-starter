@@ -2,4 +2,10 @@
 brew hledger
 # Command Runner
 brew just
+# Miller (a csv tool)
+brew miller
+# Fzf (fuzzy finder)
+brew fzf
+# Ripgrep (search tool)
+brew ripgrep
 # Ghcup is installed directly from the website!

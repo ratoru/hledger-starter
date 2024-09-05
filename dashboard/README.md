@@ -24,6 +24,8 @@ docker compose up -d
 
 5. Go to `http://localhost:3000` and log in. The default username and password is `admin` + `admin`. You will be asked to change your password after logging in for the first time.
 
+6. Adjust the python script and dashboard to match your actual account names.
+
 ## Files
 
 - `exporters/` contains the data publisher scripts.

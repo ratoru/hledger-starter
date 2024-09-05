@@ -30,3 +30,8 @@ view:
 # Generate ROI report. Use -Y for yearly breakdown.
 roi asset *FLAGS:
     hledger roi -f all.journal --investment 'acct:assets:{{asset}} not:acct:equity' --pnl 'acct:virtual:unrealized not:acct:equity' {{FLAGS}}
+
+alias r := resolve
+# Work through unknown transactions.
+resolve:
+    ./resolve.sh
