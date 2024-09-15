@@ -9,7 +9,14 @@ while true; do
         cat ./export/*unknown.journal |
             hledger -f - register -I -O csv |
             grep -v ":unknown" |
-            grep -v -f <(cat ./import/*/rules.psv | cut -d'|' -f1) |
+            {
+                rules_file=$(find ./import -name "rules.psv" 2>/dev/null)
+                if [ -n "$rules_file" ]; then
+                    grep -v -f <(cat $rules_file | cut -d'|' -f1)
+                else
+                    cat # If no rules file found, just pass through all lines
+                fi
+            } |
             mlr --csv cut -f date,description,account,amount
     )
     count=$(echo "${transactions}" | mlr count | cut -d'=' -f2)
@@ -44,8 +51,24 @@ while true; do
         ;;
     esac
 
+    # Create rules.psv if necessary
+    if [ ! -f ${dir}/rules.psv ]; then
+        base_folder=$(basename ${dir})
+        touch ${dir}/rules.psv
+        echo "if|account2|comment" >>${dir}/rules.psv
+        echo $'\ninclude rules.psv' >>${dir}/${base_folder}.rules
+        echo "Created ${dir}/rules.psv and added include directive to ${dir}/${base_folder}.rules."
+        printf "\e[1;33mNOTE:\e[0m You must add \`rules.psv\` to the extra deps of ${base_folder} in export.hs!\n"
+    fi
+
     regexp=$(
-        rules=$(paste -s -d ' ' $(ls ${dir}/*.rules))
+        # TODO: what about file specific rules in subdirectories? (Chapter 12)
+        rules=$(
+            for file in ${dir}/*.rules; do
+                # Ignore comments, since they break fzf call
+                grep -v '^#' "$file"
+            done | paste -s -d ' ' -
+        )
         RELOAD="reload:rg --color=always --line-number --smart-case {q} ${rules} ${dir}/rules.psv ${dir}/csv || :"
         fzf --header=$'Fine-tune regexp to create import rule.\nSearching in '"${dir}"'/*.rules and '"${dir}"'/csv' \
             --disabled --ansi --wrap \
@@ -61,7 +84,7 @@ while true; do
     target_account=$(
         cat /tmp/accounts.txt |
             sort -u |
-            fzf --header="Choose account money was sent to (prepend : to create new account)" --wrap \
+            fzf --header="Choose target account (prepend : to create new account)" --wrap \
                 --border --border-label "Resolving Unknowns (${count}) - 3/4" \
                 --bind "enter:accept-or-print-query"
     )
@@ -71,14 +94,6 @@ while true; do
         echo "${target_account}" >>/tmp/accounts.txt
     fi
 
-    if [ ! -f ${dir}/rules.psv ]; then
-        base_folder=$(basename ${dir})
-        touch ${dir}/rules.psv
-        echo "if|account2|comment" >>${dir}/rules.psv
-        echo "include rules.psv" >>${dir}/${base_folder}.rules
-        echo "Created ${dir}/rules.psv and added include directive to ${dir}/${base_folder}.rules."
-        printf "\e[1;33mNOTE:\e[0m You must add \`rules.psv\` to the extra deps of ${base_folder} in export.hs!\n"
-    fi
     cat ${dir}/rules.psv | cut -d '|' -f3 | sort -u >/tmp/comments.txt
 
     # ... and comment. Comment could be either selected from existing comments
