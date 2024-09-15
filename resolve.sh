@@ -69,7 +69,7 @@ while true; do
                 grep -v '^#' "$file"
             done | paste -s -d ' ' -
         )
-        RELOAD="reload:rg --color=always --line-number --ignore-case '{q}' ${rules} ${dir}/rules.psv ${dir}/csv || :"
+        RELOAD="reload:rg --color=always --line-number --ignore-case "{q}" ${rules} ${dir}/rules.psv ${dir}/csv || :"
         fzf --header=$'Fine-tune regexp to create import rule.\nSearching in '"${dir}"'/*.rules and '"${dir}"'/csv' \
             --disabled --ansi --wrap \
             --border --border-label "Resolving Unknowns (${count}) - 2/4" \
