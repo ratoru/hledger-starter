@@ -63,12 +63,8 @@ while true; do
 
     regexp=$(
         # TODO: what about file specific rules in subdirectories? (Chapter 12)
-        rules=$(
-            for file in ${dir}/*.rules; do
-                # Ignore comments, since they break fzf call
-                grep -v '^#' "$file"
-            done | paste -s -d ' ' -
-        )
+        rules=$(ls ${dir}/*.rules | paste -s -d' ' -)
+
         RELOAD="reload:rg --color=always --line-number --ignore-case "{q}" ${rules} ${dir}/rules.psv ${dir}/csv || :"
         fzf --header=$'Fine-tune regexp to create import rule.\nSearching in '"${dir}"'/*.rules and '"${dir}"'/csv' \
             --disabled --ansi --wrap \
