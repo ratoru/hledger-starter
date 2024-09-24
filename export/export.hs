@@ -60,7 +60,10 @@ reports first current =
 -- Extra dependencies of the import files
 -----------------------------------------
 extraDeps file
-  | "//lloyds//*.journal" ?== file   = ["lloyds.rules", "rules.psv"]
+  | "//lloyds//*.journal" ?== file =
+      let basename = takeBaseName file
+      in
+        ["./rules/" ++ basename ++ ".rules", "lloyds.rules", "rules.psv"]
   | otherwise = []
 
 -----------------------------------------------
