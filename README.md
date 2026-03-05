@@ -1,5 +1,9 @@
 # Plain Text Accounting using Hledger
 
+> [!IMPORTANT]
+> I have revamped my setup and am now using [hledger-build](https://github.com/ratoru/hledger-build).
+> Please head over there!
+
 This is my starter template for tracking my finances. It is based on plain text accounting, which has the following advantages and disadvantages.
 
 - Pros
